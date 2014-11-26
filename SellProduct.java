@@ -6,6 +6,17 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.Dimension;
 
+/***
+ * The class SellProduct contains the graphic user interface for a program to select products from the catalog, and purchase it.
+ * The user inputs information into a text field, and the information is stored in the text area.
+ * The "User" can then confirm, when he is done inputting products into the cart. Limit is 1 item.
+ * Confirm button will take the "User" to the Print frame.
+ * The design is 1 frame containing 3 panels using grid layout.
+ * The class extends JFrame and implements ActionListener, for the action of the button.
+ * 
+ * @authors Michael H. Jakobsen & Amine Bourdi
+ * Date: 26 November 2014
+ */
 public class SellProduct extends JFrame implements ActionListener {
 
 	/**
@@ -18,15 +29,18 @@ public class SellProduct extends JFrame implements ActionListener {
 	 */
 	public JTextField jtxProductName, jtxPrice;
 	JTextArea jtaCart, jtaCatalog;
-	JTextField jtxProduct; 
+	public static JTextField jtxProduct; 
 	JLabel jlWelcome, jlProduct, jlBlank, jlBlank2, jlBlank3,jlBlank4, jlBlank5, jlBlank6, jlBlank7, jlBlank8, jlCartInfo, jlPrice, jlCart;
 	JButton jbtSelect, jbtConfirm;
 	JPanel panelLeft, panelRight, panelCenter;
 	public int c = 0;
 	
-	public static String[] productName = new String[100];
-	public static Double[] productPrice = new Double[100];
-	public static JLabel[] product = new JLabel[5];
+	/**
+	 * Create 2 arrays for storage of product information.
+	 */
+	public static String[] productName = new String[5];
+	public static Double[] productPrice = new Double[5];
+
 	
 	/**
 	 * Construct new public method SellProduct to create the design of the GUI.
@@ -84,7 +98,7 @@ public class SellProduct extends JFrame implements ActionListener {
 		jbtConfirm.addActionListener(this);;
 		
 		/**
-		 * 
+		 * Text area that contains the product the "User" inputs the cart.
 		 */
 		jtaCart = new JTextArea();
 		jtaCatalog = new JTextArea();
@@ -135,9 +149,17 @@ public class SellProduct extends JFrame implements ActionListener {
 	 * Method for actionPerformed
 	 */
 	public void actionPerformed(ActionEvent arg0) {
-
+		
+		/**
+		 * IF statement - to ensure the appropriate action is taken with the buttons.
+		 * IF jbtSelect button is pushed, do this:
+		 */
 		if(arg0.getSource() == jbtSelect)
 		{	
+			/**
+			 * IF - the text field is not changed, display "No items".
+			 * ELSE - Input the text from the text field into the text area cart.
+			 */
 			if(jtxProduct.getText().equalsIgnoreCase("i.e. Toyota"))
 			{
 				jtaCart.setText("No items in you shopping cart");
@@ -148,9 +170,12 @@ public class SellProduct extends JFrame implements ActionListener {
 			}
 		}	
 		
+		/**
+		 * IF jbtConfirm button is pushed, open new Print frame. 
+		 */
 		if(arg0.getSource() == jbtConfirm)
 			{
-			new Print();	
+			new Print();
 			}	
 	}
 }

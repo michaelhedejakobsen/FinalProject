@@ -5,7 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.Dimension;
-
+/***
+ * The class CreateUser contains the graphic user interface for a program to create a new account.
+ * The account information is stored is 5 different arrays of strings; firstName, lastName, userName, passWord, accountType.
+ * The design is 1 frame containing 3 panels using grid layout.
+ * The class extends JFrame and implements ActionListener, for the action of the button.
+ *
+ * @authors Michael H. Jakobsen & Amine Bourdi
+ * Date: 26 November 2014
+ */
 public class CreateUser extends JFrame implements ActionListener {
 	/**
 	 * Create static long, containing the serial number of the version.
@@ -24,6 +32,9 @@ public class CreateUser extends JFrame implements ActionListener {
 	final JFrame frame;
 	public int i=0;
 	
+	/**
+	 * Create 5 arrays for storage of account information.
+	 */
 	public static String[] firstName = new String[10];
 	public static String[] lastName = new String[10];
 	public static String[] userName = new String[10];
@@ -36,7 +47,8 @@ public class CreateUser extends JFrame implements ActionListener {
 	public CreateUser(){	
 		
 		/**
-		 * 
+		 * Loop to check if the counter i has already been initiated with other user, 
+		 * to ensure new accounts are stored in a new location in the array.
 		 */
 		int x = 0;
 		do
@@ -97,7 +109,7 @@ public class CreateUser extends JFrame implements ActionListener {
 		jcbAdmin = new JCheckBox("Admin");
 		
 		/**
-		 * Create a new button, to create the user.
+		 * Create 2 buttons, 1 for creating the account, 1 for signing in with existing account.
 		 */
 		jbtCreate = new JButton("Create Account");
 		jbtCreate.addActionListener(this);
@@ -142,11 +154,23 @@ public class CreateUser extends JFrame implements ActionListener {
 	 * Method for actionPerformed
 	 */
 	public void actionPerformed(ActionEvent arg0) {
+		/**
+		 * IF statement - to ensure the appropriate action is taken with the buttons.
+		 * IF jbtCreate button is pushed, do this:
+		 */
 		if(arg0.getSource() == jbtCreate)
 		{
-			
+		
+		/**
+		 * DO - store the information from the text fields into the arrays.	
+		 * WHILE - the array location is empty.
+		 */
 		do{
 
+		/**
+		 * IF location in array is empty do the following.
+		 * ELSE increment counter i with 1.	
+		 */
 		if(firstName [i] == null){
 	
 				firstName [i] = jtxFirst.getText();
@@ -154,6 +178,10 @@ public class CreateUser extends JFrame implements ActionListener {
 				passWord [i] = jpwPass.getText();
 				userName [i] = jtxUser.getText();
 				
+				/**
+				 * IF the check box User is selected, store "User" in the array accountType.
+				 * ELSE store Admin
+				 */
 				if (jcbUser.isSelected()){
 					if(jcbAdmin.isSelected()){
 						JOptionPane.showMessageDialog(null, "ONLY select User OR Admin, noth both");
@@ -167,11 +195,17 @@ public class CreateUser extends JFrame implements ActionListener {
 		}else i++;
 
 		}while (firstName == null);
-				
+		
+		/**
+		 * Switch to Authentication frame.
+		 */
 		new Authentication();
 		frame.setVisible(false);
 	}
 	
+	/**
+	 * IF jbtSignIn button is pushed, open Authentication frame.
+	 */
 	if(arg0.getSource() == jbtSignIn)
 		{
 			new Authentication();

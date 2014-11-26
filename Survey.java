@@ -6,6 +6,19 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.Dimension;
 
+/***
+ * The class Survey contains the graphic user interface for a program to input answers from survey questions.
+ * When the survey is submitted the COUPON CODe will be displayed.
+ * Sign Out button will take the "User" to the Authentication frame.
+ * Close Program button will exit the program.
+ * Submit Coupon button will calculate the new total with 10% off.
+ * Continue Shopping button will take the "User" to the SellProduct frame.
+ * The design is 1 frame containing 3 panels using grid layout.
+ * The class extends JFrame and implements ActionListener, for the action of the button.
+ * 
+ * @authors Michael H. Jakobsen & Amine Bourdi
+ * Date: 26 November 2014
+ */
 public class Survey extends JFrame implements ActionListener {
 	
 	/**
@@ -18,10 +31,13 @@ public class Survey extends JFrame implements ActionListener {
 	 */
 	public JTextField jtxAnswer1, jtxAnswer2, jtxAnswer3;
 	JLabel jlQuestion1, jlQuestion2, jlQuestion3, jlCoupon, jlInstructions, jlBlank;
-	JButton jbtSubmit, jbtContinue, jbtSignOut;
+	JButton jbtSubmit, jbtContinue, jbtSignOut, jbtFinish;
 	JPanel panelLeft, panelRight, panelCenter;
 	public int d = 0;
 	
+	/**
+	 * Create 3 arrays for storage of survey answers.
+	 */
 	static String[] Answer1 = new String[10];
 	static String[] Answer2 = new String[10];
 	static String[] Answer3 = new String[10];	
@@ -80,6 +96,8 @@ public class Survey extends JFrame implements ActionListener {
 		jbtContinue.addActionListener(this);
 		jbtSignOut = new JButton("Sign Out");
 		jbtSignOut.addActionListener(this);
+		jbtSubmit.addActionListener(this);
+		jbtFinish = new JButton("Close Program");
 		
 		/**
 		 * Adding the components to the panels.
@@ -97,6 +115,7 @@ public class Survey extends JFrame implements ActionListener {
 		panelRight.add(jlCoupon);
 		panelRight.add(jbtContinue);
 		panelRight.add(jbtSignOut);
+		panelRight.add(jbtFinish);
 		
 		/**
 		 * Setting Grid Layout for panels
@@ -125,9 +144,17 @@ public class Survey extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent arg0) {
 	
+		/**
+		 * IF statement - to ensure the appropriate action is taken with the buttons.
+		 * IF jbtSubmit button is pushed, do this:
+		 */
 		if(arg0.getSource() == jbtSubmit)
 		{
 
+		/**
+		 * DO - input info from text fields into Answer array.
+		 * WHILE - answers are empty.
+		 */
 		do{
 			if(Answer1 [d] == null){
 		
@@ -138,8 +165,11 @@ public class Survey extends JFrame implements ActionListener {
 
 			}else d++;
 
-		}while (Answer1 == null);		
+		}while (Answer1 == null && Answer2 == null && Answer3 == null);		
 		
+		/**
+		 * IF - one or more text fields are left unchanged, output prompt.
+		 */
 		if (Answer1[d-1].equals("Answer to Question 1") || 
 			Answer2[d-1].equals("Answer to Question 2") || 
 			Answer3[d-1].equals("Answer to Question 3")) {
@@ -147,19 +177,23 @@ public class Survey extends JFrame implements ActionListener {
 			jlCoupon.setText("Sorry you did not answer all of the questions. ");
 						
 		} else jlCoupon.setText("Your Coupon Code is: CSC200 ");
-		
-		System.out.println(Answer1[d-1] + " " + Answer2[d-1] + " " + Answer3[d-1]);
-		System.out.println(d);
 	}
 	
-	if(arg0.getSource() == jbtSignOut)
+		/**
+		 * IF statements - to ensure the appropriate action is taken with the buttons.
+		 */
+		if(arg0.getSource() == jbtSignOut)
 		{
-		new Authentication();	
+			new Authentication();	
 		}
 	
-	if(arg0.getSource() == jbtContinue)
+		if(arg0.getSource() == jbtContinue)
 		{
-		new SellProduct();
+			new SellProduct();
+		}
+		if(arg0.getSource() == jbtFinish)
+		{	
+			System.exit(0);
 		}
 		
 	}
