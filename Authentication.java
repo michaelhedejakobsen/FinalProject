@@ -3,11 +3,12 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.*;
+
 import java.awt.Dimension;
 
 public class Authentication extends JFrame implements ActionListener {
-
 	
 	/**
 	 * Create static long, containing the serial number of the version.
@@ -15,69 +16,66 @@ public class Authentication extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 5577077535315638728L;
 	
 	/**
-	 * Initializing variables; text fields, labels, panels, button and option panel
+	 * Initializing variables; text fields, labels, panels, buttons.
 	 */
 	public JTextField jtxUser;
 	JPasswordField jpwPass;
 	JLabel jlPass, jlUser, jlInstructions, jlBlank;
-	JButton jbtSignIn;
+	JButton jbtSignIn, jbtNewUser;
 	JPanel panelLeft, panelRight, panelCenter;
-	
+	JFrame mainFrame;
+	public int a = 0;
+
 	/**
-	 * Construct new public method FinalProjectGUI to create the design of the GUI.
+	 * Construct new public method Authentication to create the design of the GUI.
 	 */
 	public Authentication(){	
-		
 		/**
-		 * Creating a panel with grid layout.
+		 * Create new JFrame.
+		 */
+		JFrame frame = new JFrame("Final Project");
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    
+		/**
+		 * Create 3 panels with grid layout.
 		 */
 		panelLeft = new JPanel();
 		panelLeft.setLayout(new GridLayout(11,1));
 		panelLeft.setBackground(Color.LIGHT_GRAY);
 		panelLeft.setSize(200, 400);
-		
-		/**
-		 * Creating a panel with grid layout.
-		 */
+
 		panelRight = new JPanel();
 		panelRight.setLayout(new GridLayout(11,1));
 		panelRight.setBackground(Color.LIGHT_GRAY);
 		panelRight.setSize(200, 400);
 		
-		/**
-		 * Creating a panel with grid layout.
-		 */
 		panelCenter = new JPanel();
 		panelCenter.setLayout(new GridLayout(11,1));
 		panelCenter.setBackground(Color.LIGHT_GRAY);
 		panelCenter.setSize(200, 400);
 		
 		/**
-		 * Create new labels with instructions.
+		 * Create text fields, labels, password field, and buttons.
 		 */
 		jlInstructions = new JLabel(" Sign in to your account:  ");
 		jlPass = new JLabel(" Input password");
 		jlUser = new JLabel(" Input username");
 		jlBlank = new JLabel();
 
-		/**
-		 * Create text fields, checkboxes, and password field for input of personal information.
-		 */
 		jtxUser= new JTextField(30);
 		jtxUser.setForeground(Color.gray);
 		jtxUser.setText("i.e. userUser123");
 		
 		jpwPass = new JPasswordField(30);
 		jpwPass.setText("xxxxxxxx");
-		
-		/**
-		 * Create a new button, to create the user.
-		 */
+
 		jbtSignIn = new JButton("Sign In");
 		jbtSignIn.addActionListener(this);
+		jbtNewUser = new JButton("Create New User");
+		jbtNewUser.addActionListener(this);
 		
 		/**
-		 * Adding the components to the panels.
+		 * Add the components to the panels.
 		 */
 		panelLeft.add(jlInstructions);
 		panelLeft.add(jlUser);
@@ -87,40 +85,68 @@ public class Authentication extends JFrame implements ActionListener {
 		
 		panelRight.add(jlBlank);
 		panelRight.add(jbtSignIn);
+		panelRight.add(jbtNewUser);
 
 		/**
 		 * Add the panels to the BorderLayout
 		 */
-		add(panelLeft, BorderLayout.WEST);
-		add(panelRight, BorderLayout.EAST);
-		add(panelCenter, BorderLayout.CENTER);
+		frame.add(panelLeft, BorderLayout.WEST);
+		frame.add(panelRight, BorderLayout.EAST);
+		frame.add(panelCenter, BorderLayout.CENTER);
 
 		/**
 		 * Set the size and GUI visible.
 		 */
-		setSize(new Dimension(800,400));
-		setVisible(true);
-		setForeground(Color.LIGHT_GRAY);
+		frame.setSize(new Dimension(800,500));
+		frame.setVisible(true);
+		frame.setForeground(Color.LIGHT_GRAY);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	/**
 	 * Method for actionPerformed
 	 */
 	public void actionPerformed(ActionEvent arg0) {
-		
+		if(arg0.getSource() == jbtSignIn)
+		{
+			do
+			{
+				if(jtxUser.getText().equals(CreateUser.userName[a]))
+				{
+					do
+					{
+						if(jpwPass.getText().equals(CreateUser.passWord[a]))
+						{
+							if (CreateUser.accountType[a].equalsIgnoreCase("User"))
+							{
+								new SellProduct();
+							}
+							else
+							{
+								new CreateProduct();
+							}
+							break;
+						}
 
-	}
-
-	/**
-	 * Main method
-	 * @param args
-	 */
-	public static void main(String[] args) {
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Wrong password");
+							break;
+						}
+					}while(CreateUser.userName != null);
+					
+				}else{a++;
+					
+				}
+				break;
+			
+			}while (a<10 || !jtxUser.getText().equals(CreateUser.userName[a]));
+		}	
 		
-		/**
-		 * Create new instance of the class CreateUser.
-		 */
-		new Authentication();
-	}
+		if(arg0.getSource() == jbtNewUser)
+		{
+			new CreateUser();
+		}
+	}	
 }

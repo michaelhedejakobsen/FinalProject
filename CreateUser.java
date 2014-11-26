@@ -7,63 +7,79 @@ import javax.swing.*;
 import java.awt.Dimension;
 
 public class CreateUser extends JFrame implements ActionListener {
-
-	
 	/**
 	 * Create static long, containing the serial number of the version.
 	 */
 	private static final long serialVersionUID = 5577077535315638727L;
 	
 	/**
-	 * Initializing variables; text fields, labels, panels, button and option panel
+	 * Initializing variables; text fields, labels, panels, buttons.
 	 */
 	public JTextField jtxFirst, jtxLast, jtxUser, jtxAccType;
 	JPasswordField jpwPass;
 	JLabel jlPass, jlUser, jlInstructions, jlBlank;
 	JCheckBox jcbUser, jcbAdmin;
-	JButton jbtCreate;
+	JButton jbtCreate, jbtSignIn;
 	JPanel panelLeft, panelRight, panelCenter;
+	final JFrame frame;
+	public int i=0;
+	
+	public static String[] firstName = new String[10];
+	public static String[] lastName = new String[10];
+	public static String[] userName = new String[10];
+	public static String[] passWord = new String[10];
+	public static String[] accountType = new String[10];
 	
 	/**
-	 * Construct new public method FinalProjectGUI to create the design of the GUI.
+	 * Construct new public method CreateUser to create the design of the GUI.
 	 */
 	public CreateUser(){	
 		
 		/**
-		 * Creating a panel with grid layout.
+		 * 
+		 */
+		int x = 0;
+		do
+		{
+			if (firstName[x]!=null)
+			{
+				x++;
+			}
+		}while(firstName[x]!=null);
+		i = x;
+		
+		/**
+		 * Create new JFrame.
+		 */
+	    frame = new JFrame("Final Project");
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		/**
+		 * Create 3 panels with grid layout.
 		 */
 		panelLeft = new JPanel();
 		panelLeft.setLayout(new GridLayout(11,1));
 		panelLeft.setBackground(Color.LIGHT_GRAY);
 		panelLeft.setSize(200, 400);
-		
-		/**
-		 * Creating a panel with grid layout.
-		 */
+
 		panelRight = new JPanel();
 		panelRight.setLayout(new GridLayout(11,1));
 		panelRight.setBackground(Color.LIGHT_GRAY);
 		panelRight.setSize(200, 400);
-		
-		/**
-		 * Creating a panel with grid layout.
-		 */
+
 		panelCenter = new JPanel();
 		panelCenter.setLayout(new GridLayout(11,1));
 		panelCenter.setBackground(Color.LIGHT_GRAY);
 		panelCenter.setSize(200, 400);
 		
 		/**
-		 * Create new labels with instructions.
+		 * Create text fields, check boxes, labels, password field, and buttons.
 		 */
 		jlInstructions = new JLabel(" Enter your personal information to create an account:  ");
 		jlPass = new JLabel(" Input your desired password");
 		jlUser = new JLabel(" Input your desired user name");
 		jlBlank = new JLabel();
 
-		/**
-		 * Create text fields, checkboxes, and password field for input of personal information.
-		 */
 		jtxFirst= new JTextField(30);
 		jtxFirst.setText("Input your first name");
 		jtxFirst.setForeground(Color.gray);
@@ -83,11 +99,13 @@ public class CreateUser extends JFrame implements ActionListener {
 		/**
 		 * Create a new button, to create the user.
 		 */
-		jbtCreate = new JButton("Create User");
+		jbtCreate = new JButton("Create Account");
 		jbtCreate.addActionListener(this);
+		jbtSignIn = new JButton("Sign In With Existing Username");
+		jbtSignIn.addActionListener(this);
 		
 		/**
-		 * Adding the components to the panels.
+		 * Add the components to the panels.
 		 */
 		panelLeft.add(jlInstructions);
 		panelLeft.add(jtxFirst);
@@ -101,40 +119,71 @@ public class CreateUser extends JFrame implements ActionListener {
 		
 		panelRight.add(jlBlank);
 		panelRight.add(jbtCreate);
+		panelRight.add(jbtSignIn);
 
 		/**
 		 * Add the panels to the BorderLayout
 		 */
-		add(panelLeft, BorderLayout.WEST);
-		add(panelRight, BorderLayout.EAST);
-		add(panelCenter, BorderLayout.CENTER);
+		frame.add(panelLeft, BorderLayout.WEST);
+		frame.add(panelRight, BorderLayout.EAST);
+		frame.add(panelCenter, BorderLayout.CENTER);
 
 		/**
 		 * Set the size and GUI visible.
 		 */
-		setSize(new Dimension(800,400));
-		setVisible(true);
-		setForeground(Color.LIGHT_GRAY);
+		frame.setSize(new Dimension(800,500));
+		frame.setVisible(true);
+		frame.setForeground(Color.LIGHT_GRAY);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	/**
 	 * Method for actionPerformed
 	 */
 	public void actionPerformed(ActionEvent arg0) {
+		if(arg0.getSource() == jbtCreate)
+		{
+			
+		do{
+
+		if(firstName [i] == null){
+	
+				firstName [i] = jtxFirst.getText();
+				lastName [i] = jtxLast.getText();
+				passWord [i] = jpwPass.getText();
+				userName [i] = jtxUser.getText();
+				
+				if (jcbUser.isSelected()){
+					if(jcbAdmin.isSelected()){
+						JOptionPane.showMessageDialog(null, "ONLY select User OR Admin, noth both");
+						break;
+					}
+					accountType [i] = "User";
+				}else {accountType [i] = "Admin";}
+				
+				i++;
 		
+		}else i++;
 
+		}while (firstName == null);
+				
+		new Authentication();
+		frame.setVisible(false);
 	}
-
+	
+	if(arg0.getSource() == jbtSignIn)
+		{
+			new Authentication();
+		}
+	}
+	
 	/**
 	 * Main method
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		
-		/**
-		 * Create new instance of the class CreateUser.
-		 */
 		new CreateUser();
 	}
 }
